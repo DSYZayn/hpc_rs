@@ -4,23 +4,23 @@ import (
 	"fmt"
 	"math/rand"
 
-	// "sync"
+	"sync"
 	"time"
 )
 
 func main() {
 	const N = 10
-	// var wg sync.WaitGroup
+	var wg sync.WaitGroup
 
 	a := make([][]float64, N)
 	b := make([][]float64, N)
-	// c := make([][]float64, N)
+	c := make([][]float64, N)
 	d := make([][]float64, N)
 
 	for i := 0; i < N; i++ {
 		a[i] = make([]float64, N)
 		b[i] = make([]float64, N)
-		// c[i] = make([]float64, N)
+		c[i] = make([]float64, N)
 		d[i] = make([]float64, N)
 	}
 
@@ -32,27 +32,27 @@ func main() {
 		}
 	}
 
-	// bT := time.Now()
+	bT := time.Now()
 
-	// for i := 0; i < N; i++ {
-	// 	wg.Add(1)
+	for i := 0; i < N; i++ {
+		wg.Add(1)
 
-	// 	go func(i int) {
-	// 		defer wg.Done()
+		go func(i int) {
+			defer wg.Done()
 
-	// 		for j := 0; j < N; j++ {
-	// 			for k := 0; k < N; k++ {
-	// 				c[i][j] += a[i][k] * b[k][j]
-	// 			}
-	// 		}
-	// 	}(i)
-	// }
+			for j := 0; j < N; j++ {
+				for k := 0; k < N; k++ {
+					c[i][j] += a[i][k] * b[k][j]
+				}
+			}
+		}(i)
+	}
 
-	// wg.Wait()
+	wg.Wait()
 
-	// eT := time.Since(bT)
+	eT := time.Since(bT)
 
-	// fmt.Println("WaitGroup method Calculate time: ", eT)
+	fmt.Println("WaitGroup method Calculate time: ", eT)
 
 	// channel method
 
